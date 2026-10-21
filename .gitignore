@@ -1,6 +1,23 @@
-venv/
+```gitignore
+# Python cache files
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+*.py[cod]
+
+# IDE settings
 .vscode/
 .idea/
+
+# Environment variables and secrets
 .env
+
+# Python virtual environments
+.venv/
+.venv-1/
+venv/
+
+# Local SQLite database files
+database/*.db
+```
