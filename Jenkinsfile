@@ -1,41 +1,64 @@
+
 pipeline {
     agent any
+
+    options {
+        skipDefaultCheckout(true)
+    }
 
     stages {
 
         stage('Checkout') {
             steps {
-                echo 'Source code checkout completed'
+                echo 'Checking out source code from GitHub'
+                checkout scm
             }
         }
 
-        stage('Verify Project') {
+        stage('Verify Environment') {
             steps {
+                sh 'python3 --version'
+                sh 'python3 -m pip --version'
                 sh 'pwd'
                 sh 'ls -la'
             }
         }
 
-        stage('Build') {
+        stage('Install Dependencies') {
             steps {
-                echo 'Application build stage'
+                sh '''
+                    python3 -m venv .venv-ci
+                    .venv-ci/bin/python -m pip install --upgrade pip
+                    .venv-ci/bin/python -m pip install -r requirements.txt
+                    .venv-ci/bin/python -m pip install -r requirements-dev.txt
+                '''
             }
         }
 
-        stage('Test') {
+        stage('Run Tests') {
             steps {
-                echo 'Application testing stage'
+                sh '''
+                    mkdir -p test-results
+                    PYTHONPATH=. .venv-ci/bin/python -m pytest -v \
+                    --junitxml=test-results/pytest-results.xml
+                '''
             }
         }
     }
 
     post {
+        always {
+            junit allowEmptyResults: true,
+                  testResults: 'test-results/*.xml'
+        }
+
         success {
-            echo 'Pipeline completed successfully!'
+            echo 'CI Pipeline completed successfully!'
         }
 
         failure {
-            echo 'Pipeline failed!'
+            echo 'CI Pipeline failed. Check the console output.'
         }
     }
 }
+
