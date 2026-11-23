@@ -6,3 +6,20 @@ __pycache__/
 .git/
 .env
 database/*.db
+# Python virtual environments
+linux-venv/
+venv/
+.venv/
+.venv-1/
+
+
+# Pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs
+*.log
+
+# Test artifacts
+test-results/

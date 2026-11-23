@@ -1,4 +1,4 @@
-```gitignore
+
 # Python cache files
 __pycache__/
 *.pyc
@@ -20,4 +20,16 @@ venv/
 
 # Local SQLite database files
 database/*.db
-```
+# Additional Python environment
+linux-venv/
+
+# Pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs
+*.log
+
+# Test artifacts
+test-results/
