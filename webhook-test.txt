@@ -1,1 +1,1 @@
-Testing Jenkins GitHub webhook
+Testing automatic Jenkins CI
